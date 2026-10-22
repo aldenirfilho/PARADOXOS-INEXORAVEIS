@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Paradoxos Inexoráveis | Saúde, recursos e escolhas</title>
+<meta content="Estudo propositivo de Aldenir Rocha: saúde, mercado, defesa e memória RAM. Premissas, comparação de escalas e limites do material fornecido." name="description"/>
+<meta content="article" property="og:type"/>
+<meta content="Paradoxos Inexoráveis — recursos, saúde e escolhas" property="og:title"/>
+<meta content="Uma comparação de ordens de grandeza, com estimativas declaradas, fontes do material original e simulador de cenários. Não é orçamento executivo." property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="#0b0d12" name="theme-color"/>
+<style>
+:root{
+  --bg:#0b0d12; --panel:#12151d; --panel-2:#171b25; --line:#2a2f3c;
+  --ink:#ece8de; --muted:#a9a596; --gold:#d4ad55; --gold-dim:#8f7537;
+  --cyan:#4cc9d6; --red:#e0705f; --green:#7fcf8f;
+  --serif:'Cinzel',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans);
+  background-image:radial-gradient(ellipse at top,rgba(212,173,85,.08),transparent 60%);}
+a{color:var(--cyan)}
+a:hover{color:var(--gold)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{border-bottom:1px solid var(--line);padding:14px 0}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.crest{font-family:var(--serif);letter-spacing:.14em;font-size:.82rem;color:var(--gold);text-decoration:none}
+.crest b{color:var(--ink)}
+nav.toc{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem}
+nav.toc a{color:var(--muted);text-decoration:none}
+nav.toc a:hover{color:var(--gold)}
+
+.hero{padding:56px 0 36px;text-align:center}
+.eyebrow{font-family:var(--serif);color:var(--gold);letter-spacing:.22em;font-size:.78rem;text-transform:uppercase}
+h1{font-family:var(--serif);font-size:clamp(1.9rem,5.4vw,3.3rem);line-height:1.15;margin:.5em 0 .4em;font-weight:700}
+h1 em{font-style:normal;color:var(--gold)}
+.lede{max-width:720px;margin:0 auto;color:var(--muted);font-size:1.08rem}
+.rule{display:flex;align-items:center;gap:12px;justify-content:center;color:var(--gold-dim);margin:28px auto;max-width:420px}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:8px 0 8px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:10px;padding:18px 18px 16px}
+.kpi.cyan{border-top-color:var(--cyan)} .kpi.red{border-top-color:var(--red)}
+.kpi .num{font-family:var(--serif);font-size:2rem;font-weight:700;line-height:1.1}
+.kpi .lbl{color:var(--muted);font-size:.92rem;margin-top:6px}
+
+section{padding:40px 0;border-top:1px solid var(--line)}
+h2{font-family:var(--serif);font-size:clamp(1.35rem,3.4vw,1.85rem);margin:0 0 .3em;color:var(--ink)}
+h2 .ico{margin-right:.35em}
+.sub{color:var(--muted);margin:0 0 22px;max-width:760px}
+h3{font-size:1.02rem;margin:22px 0 8px;color:var(--gold)}
+
+.tbl{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:.95rem;min-width:520px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--panel-2);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tr.total td{font-weight:700;background:var(--panel-2)}
+.strong{font-weight:700;color:var(--ink)}
+
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 18px}
+.chart .cap{font-size:.88rem;color:var(--muted);margin:0 0 16px}
+.bar{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:12px;align-items:center;margin:12px 0}
+.bar .name{font-size:.92rem}
+.track{position:relative;height:30px;background:var(--panel-2);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));display:flex;align-items:center;justify-content:flex-end;padding-right:8px;min-width:46px;color:#16130b;font-weight:700;font-size:.85rem;font-variant-numeric:tabular-nums}
+.track .out{position:absolute;left:16px;top:0;line-height:28px;font-size:.85rem;font-weight:700;color:var(--gold)}
+.fill.cyan{background:linear-gradient(90deg,#2a7f88,var(--cyan))}
+.fill.year{background:repeating-linear-gradient(45deg,#2c313d,#2c313d 6px,#262a35 6px,#262a35 12px);color:var(--muted);justify-content:flex-start;padding-left:10px}
+.scale{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin:6px 0 0 calc(min(230px,40%) + 12px)}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card h3{margin-top:0}
+.card p{margin:.4em 0 0;color:var(--muted)}
+.card .big{font-family:var(--serif);font-size:1.5rem;color:var(--ink);font-weight:700}
+
+.note{border-left:3px solid var(--cyan);background:rgba(76,201,214,.06);padding:14px 16px;border-radius:0 8px 8px 0;margin:18px 0;color:var(--ink)}
+.note.warn{border-left-color:var(--red);background:rgba(224,112,95,.07)}
+.note b{color:var(--gold)}
+ul.clean{padding-left:1.1em;margin:.4em 0}
+ul.clean li{margin:.35em 0}
+
+.share{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+button,.btn{font:600 .92rem var(--sans);border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--gold);background:transparent;color:var(--gold);text-decoration:none}
+button.primary{background:var(--gold);color:#16130b}
+button:hover,.btn:hover{filter:brightness(1.12)}
+#toast{min-height:1.4em;text-align:center;color:var(--green);font-size:.88rem;margin-top:8px}
+
+.sources{columns:2 300px;column-gap:28px;font-size:.88rem}
+.sources h3{break-after:avoid}
+.sources ul{margin:0 0 14px;padding-left:1.1em}
+.sources li{margin:.25em 0;break-inside:avoid}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:.85rem;text-align:center}
+footer .crest{display:inline-block;margin-bottom:8px}
+@media (max-width:560px){
+  .bar{grid-template-columns:1fr;gap:4px}
+  .scale{margin-left:0}
+  .kpi .num{font-size:1.7rem}
+}
+@media print{
+  body{background:#fff;color:#111}
+  .share,nav.toc{display:none}
+  .kpi,.card,.chart,.tbl{background:#fff;border-color:#ccc}
+}
+
+/* Publication shell: offline-capable, responsive, reduced motion and print. */
+:root{--serif:Georgia,'Times New Roman',serif;--sans:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+body{font-size:16px;line-height:1.7}main{outline:none}.wrap{max-width:1120px;padding:0 24px}header.top .wrap{padding-top:8px;padding-bottom:8px}.crest{letter-spacing:.12em;font-family:var(--sans);font-size:.78rem;font-weight:750}.hero{padding:70px 0 40px}.hero h1{font-size:clamp(2.15rem,6vw,4.1rem);line-height:1.13;letter-spacing:-.025em}.eyebrow,.section-kicker{font-family:var(--sans);font-size:.71rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:650}.section-kicker{margin-bottom:10px}.lede{font-size:1.05rem;max-width:800px}.rule{max-width:600px;font-family:var(--sans);font-size:.65rem;letter-spacing:.14em}.publication-note{display:flex;text-align:left;gap:12px;max-width:850px;margin:26px auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 20px;font-size:.86rem}.publication-note strong{color:var(--gold);font-weight:650}.publication-note p{margin:5px 0 0;color:var(--muted)}.status-dot{width:7px;height:7px;min-width:7px;background:var(--gold);border-radius:50%;margin-top:9px}.kpi .num{font-size:clamp(1.7rem,3vw,2.35rem)}h2{font-weight:600;letter-spacing:-.015em}section{scroll-margin-top:20px;padding:46px 0}.skip{position:absolute;left:12px;top:-100px;background:var(--ink);color:var(--bg);padding:12px;z-index:100}.skip:focus{top:12px}a,button{touch-action:manipulation}:focus-visible{outline:3px solid var(--cyan);outline-offset:4px}nav.toc a{display:inline-block;padding:6px 0}.kpi,.card{min-width:0}.grid2{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}.card{overflow-wrap:anywhere}.card strong{color:var(--ink)}.chart .bar{grid-template-columns:220px minmax(0,1fr) 150px}.bar-value{font-variant-numeric:tabular-nums;text-align:right;font-size:.85rem;font-weight:650}.fill{min-width:0!important;padding:0!important}.fill.year{background:#343b49}.track{height:24px}.chart .cap{max-width:800px}caption{text-align:left;padding:12px 14px;color:var(--muted);font-size:.83rem;border-bottom:1px solid var(--line)}.tbl{max-width:100%;scrollbar-width:thin}.sources{overflow-wrap:anywhere}details{border:1px solid var(--line);border-radius:10px;margin:16px 0 0;background:var(--panel)}summary{padding:15px 18px;cursor:pointer;font-weight:600}.details-body{padding:0 18px 15px;color:var(--muted);font-size:.91rem;overflow-wrap:anywhere}.details-body code{font-size:.85rem;color:var(--ink);white-space:normal}.input-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.scenario-form{background:var(--panel);border:1px solid var(--line);padding:24px;border-radius:12px}label{font-size:.8rem;display:block;color:var(--muted);font-weight:600}input[type=number]{display:block;margin-top:8px;background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:12px 14px;width:100%;border-radius:7px;font:600 1rem var(--sans);font-variant-numeric:tabular-nums}.form-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}.scenario-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}.result-card{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:7px;font-size:.82rem;color:var(--muted)}.result-card strong{font-size:1.75rem;font-family:var(--serif);color:var(--gold);font-weight:500}.result-label{color:var(--ink);font-weight:600;font-size:.87rem}.calc-error{color:var(--red);min-height:1.5em;font-size:.85rem;margin:8px 0 0}.footer-small{font-size:.78rem;margin-top:12px;color:var(--muted)}#toast{overflow-wrap:anywhere}button,.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}a.btn:hover{color:var(--ink)}@media(max-width:780px){.input-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.chart .bar{grid-template-columns:minmax(0,1fr) 110px;gap:6px 10px}.chart .bar .name{grid-column:1/-1}.hero{padding-top:40px}.sources{columns:1}.bar-value{font-size:.78rem}}@media(max-width:480px){.wrap{padding:0 16px}.input-grid,.scenario-results{grid-template-columns:1fr}.scenario-form{padding:16px}.publication-note{padding:15px}.hero .eyebrow{font-size:.61rem}.rule{font-size:.56rem}.hero h1{font-size:2.45rem}.kpis{grid-template-columns:1fr}nav.toc{gap:8px 16px}.bar-value{font-size:.76rem}.form-actions button{flex:1 1 auto}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}@media print{:root{--bg:white;--panel:white;--panel-2:#eee;--ink:#111;--muted:#333;--gold:#6b4f14;--cyan:#20536a;--red:#822a24;--line:#bbb}body{background:white!important;color:#111!important;font-size:10pt}header.top nav,.share,.skip,.form-actions{display:none!important}.hero{padding:12px 0}.hero h1{font-size:28pt}section{padding:22px 0}.publication-note,.card,.kpi,.note,.result-card{background:white!important;break-inside:avoid}.track{background:#eee!important}.fill{background:#777!important;print-color-adjust:exact}.tbl{overflow:visible}table{min-width:0;font-size:9pt}th,td{padding:7px}.sources{columns:1}.scenario-form{display:none}.scenario-results{grid-template-columns:repeat(2,minmax(0,1fr))}.bar-value{font-size:8pt}.chart{break-inside:avoid}.chart .bar{grid-template-columns:170px minmax(0,1fr) 100px}.chart .bar .name{grid-column:auto}input{color:#111!important}.result-card strong{font-size:18pt}}
+
+[hidden]{display:none!important}
+</style>
+<meta content="dark light" name="color-scheme"/><meta content="Aldenir Rocha de Oliveira Filho" name="author"/></head>
+<body id="inicio"><a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="top">
+<div class="wrap">
+<a class="crest" href="#inicio">PARADOXOS INEXORÁVEIS</a>
+<nav aria-label="Seções" class="toc"><a href="#pacote">O projeto</a><a href="#contraste">Contrastes</a><a href="#mercado">Mercado</a><a href="#ram">Memória RAM</a><a href="#simulador">Simulador</a><a href="#fontes">Fontes</a></nav>
+</div>
+</header>
+<main id="conteudo" tabindex="-1">
+<div class="wrap">
+<div class="hero">
+<div class="eyebrow">360X Brasil · estudo propositivo · edição de 22/10/2026</div>
+<h1>O tamanho dos recursos.<br/><em>O valor das escolhas.</em></h1>
+<p class="lede">No cenário do material enviado, implantar a rede proposta para Ásia, África e América do Sul custaria cerca de <strong>US$ 160 bilhões</strong> — valor equivalente a <strong>58 dias</strong> de uma referência anual de defesa de US$ 1 trilhão.</p><aside aria-labelledby="aviso-titulo" class="publication-note"><span aria-hidden="true" class="status-dot"></span><div><strong id="aviso-titulo">Cenário ilustrativo · dados não auditados nesta edição</strong><p>Valores e referências vêm do conteúdo fornecido pelo autor, com data-base declarada de 10/10/2026. Não são cotações em tempo real, orçamento validado nem comprovação de cobertura universal. As comparações abaixo dependem dessas premissas.</p></div></aside>
+<div class="rule">RECURSOS · CUIDADO · RESPONSABILIDADE</div>
+<div class="kpis">
+<div class="kpi"><div class="num">US$ 160 bi</div><div class="lbl">Implantação da rede · estimativa do projeto</div></div>
+<div class="kpi red"><div class="num">≈ US$ 1 tri</div><div class="lbl">Defesa anual · referência adotada no material</div></div>
+<div class="kpi cyan"><div class="num">US$ 6,0 tri</div><div class="lbl">Saúde nacional · projeção citada no material</div></div>
+</div>
+<div class="share">
+<button class="primary" id="shareBtn" type="button">Compartilhar estudo</button>
+<button id="copyBtn" type="button">Copiar link</button>
+<button id="printBtn" type="button">Imprimir</button><a class="btn" href="#simulador">Testar premissas</a></div>
+<div aria-live="polite" id="toast" role="status"></div>
+</div>
+<section id="pacote">
+<h2><span aria-hidden="true" class="ico">🧱</span>O pacote: saúde perto de casa</h2>
+<p class="sub">No desenho proposto, a unidade de cálculo é um território de cerca de <strong>150 mil pessoas</strong>. O pacote prevê um mini-hospital de alta complexidade e quatro centros de diagnóstico precoce de neurodesenvolvimento, convertidos a partir de unidades básicas existentes.</p>
+<div aria-label="Tabela 1; role horizontalmente em telas estreitas" class="tbl" role="region" tabindex="0"><table>
+<thead><tr><th scope="col">Peça</th><th class="n" scope="col">Obra (uma vez)</th><th class="n" scope="col">Custeio mensal</th></tr></thead>
+<tbody>
+<tr><td>🏥 1 mini-CTI de 10 leitos, porta de urgência e 2 salas cirúrgicas, sem tomógrafo</td><td class="n">R$ 15,2 milhões</td><td class="n">R$ 900 mil</td></tr>
+<tr><td>🧠 4 centros de neurodiversidade (R$ 550 mil e R$ 145 mil/mês cada)</td><td class="n">R$ 2,2 milhões</td><td class="n">R$ 580 mil</td></tr>
+<tr class="total"><td>Pacote por território</td><td class="n">R$ 17,4 milhões</td><td class="n">R$ 1,48 milhão</td></tr>
+</tbody>
+</table></div>
+<p class="note"><b>Premissas fornecidas pelo projeto:</b> preços atribuídos ao Nordeste brasileiro em 2026, tecnologia intermediária, ultrassom à beira do leito e ausência de tomógrafo no desenho proposto, ocupação de 8 dos 10 leitos e equipe de enfermagem estimada. Densidade aritmética: 6,7 leitos de terapia intensiva por 100 mil habitantes. Este desenho não é um protocolo assistencial e não recebeu validação clínica, de engenharia ou regulatória nesta edição.</p>
+</section>
+<section id="rede">
+<h2><span aria-hidden="true" class="ico">🌍</span>A rede: Ásia, África e América do Sul</h2>
+<p class="sub">Populações e quantidades reproduzidas do material original, que as atribui às projeções da ONU para 1º de julho de 2026. A fonte demográfica primária e o cálculo regional não foram auditados nesta edição.</p>
+<div aria-label="Tabela 2; role horizontalmente em telas estreitas" class="tbl" role="region" tabindex="0"><table>
+<thead><tr><th scope="col">Região</th><th class="n" scope="col">População</th><th class="n" scope="col">Pacotes</th><th class="n" scope="col">Leitos de CTI</th><th class="n" scope="col">Obra</th></tr></thead>
+<tbody>
+<tr><td>Ásia</td><td class="n">4,86 bilhões</td><td class="n">32.422</td><td class="n">324.220</td><td class="n">R$ 564 bi</td></tr>
+<tr><td>África</td><td class="n">1,58 bilhão</td><td class="n">10.567</td><td class="n">105.670</td><td class="n">R$ 184 bi</td></tr>
+<tr><td>América do Sul</td><td class="n">440 milhões</td><td class="n">2.937</td><td class="n">29.370</td><td class="n">R$ 51 bi</td></tr>
+<tr class="total"><td>As três regiões</td><td class="n">6,89 bilhões</td><td class="n">45.926</td><td class="n">459.260</td><td class="n">R$ 799 bi</td></tr>
+</tbody>
+</table></div>
+<div class="grid2" style="margin-top:14px">
+<div class="card"><h3>🧠 Neurodiversidade</h3><div class="big">183.704 centros</div><p>Diagnóstico e acompanhamento precoce de crianças com TDAH e outros transtornos do neurodesenvolvimento.</p></div>
+<div class="card"><h3>🇧🇷 Só o Brasil</h3><div class="big">1.425 pacotes</div><p>Cerca de metade da América do Sul. Obra de R$ 24,8 bilhões (≈ US$ 5 bilhões).</p></div>
+<div class="card"><h3>🌐 Planeta inteiro</h3><div class="big">55.338 pacotes</div><p>Para 8,30 bilhões de pessoas: R$ 963 bilhões de obra (≈ US$ 193 bilhões).</p></div>
+</div>
+</section>
+<section id="contraste">
+<h2><span aria-hidden="true" class="ico">⚖️</span>O contraste</h2>
+<p class="sub">Parâmetros do material fornecido: câmbio de R$ 4,985 por US$ 1; defesa anual de aproximadamente US$ 1 trilhão; saúde nacional de US$ 6,0 trilhões. Não equivalem à confirmação de gastos executados ou dotações vigentes.</p>
+<div aria-label="Dias de orçamento militar dos EUA equivalentes a cada custo: obra das três regiões 58 dias, um ano de custeio 60 dias, obra do planeta 70 dias, obra do Brasil 2 dias, de um ano de 365 dias." class="chart" role="img">
+<p class="cap">Equivalência aritmética com a referência anual de defesa adotada no estudo. Barra inteira = 365 dias; isso não significa que os recursos estejam disponíveis para transferência.</p>
+<div class="bar"><div class="name">🏗️ Obra das três regiões</div><div class="track"><div aria-hidden="true" class="fill" style="width:15.9%"></div></div><span class="bar-value">58 dias</span></div>
+<div class="bar"><div class="name">⚙️ 1 ano da rede ligada</div><div class="track"><div aria-hidden="true" class="fill cyan" style="width:16.4%"></div></div><span class="bar-value">60 dias</span></div>
+<div class="bar"><div class="name">🌐 Obra do planeta inteiro</div><div class="track"><div aria-hidden="true" class="fill" style="width:19.3%"></div></div><span class="bar-value">70 dias</span></div>
+<div class="bar"><div class="name">🇧🇷 Obra do Brasil</div><div class="track"><div aria-hidden="true" class="fill" style="width:0.5%"></div></div><span class="bar-value">2 dias</span></div>
+<div class="bar"><div class="name">🪖 Um ano de defesa</div><div class="track"><div aria-hidden="true" class="fill year" style="width:100%"></div></div><span class="bar-value">365 dias ≈ US$ 1 trilhão</span></div>
+</div>
+<h3>Em números</h3>
+<div aria-label="Tabela 3; role horizontalmente em telas estreitas" class="tbl" role="region" tabindex="0"><table>
+<thead><tr><th scope="col">O que</th><th class="n" scope="col">Custo</th><th scope="col">Equivale a</th></tr></thead>
+<tbody>
+<tr><td>🏗️ Obra das três regiões</td><td class="n">≈ US$ 160 bi</td><td>16% de um ano de defesa · 2,7% de um ano de saúde (≈ 10 dias)</td></tr>
+<tr><td>⚙️ Manter a rede ligada por 1 ano</td><td class="n">≈ US$ 164 bi</td><td>16% da defesa · 2,7% da saúde</td></tr>
+<tr><td>🌐 Obra para o planeta inteiro</td><td class="n">≈ US$ 193 bi</td><td>19% de um ano de defesa (≈ 70 dias)</td></tr>
+<tr><td>🇧🇷 Obra do Brasil</td><td class="n">≈ US$ 5 bi</td><td>0,5% de um ano de defesa (≈ 2 dias)</td></tr>
+</tbody>
+</table></div>
+<div class="grid2" style="margin-top:14px">
+<div class="card"><h3>🪖 O aumento pedido para 2027</h3><div class="big">US$ 500 bi</div><p>Proposta mencionada no material: de US$ 1 trilhão para US$ 1,5 trilhão. Nessa hipótese, a diferença cobriria a implantação e aproximadamente dois anos de custeio. O status legislativo não foi verificado nesta edição.</p></div>
+<div class="card"><h3>🎖️ Só o Exército, pedido 2027</h3><div class="big">US$ 252,8 bi</div><p>Valor atribuído ao pedido de 2027 no conteúdo original, não confirmado nesta edição. Sob as premissas do projeto, cobriria a implantação e aproximadamente sete meses de custeio.</p></div>
+<div class="card"><h3>🧠 Um trimestre de memória RAM</h3><div class="big">US$ 97 bi</div><p>Receita trimestral atribuída ao setor de memória no texto fornecido. Não auditada. A comparação é de escalas: receita de empresas não é orçamento público disponível.</p></div>
+</div>
+</section>
+<section id="mercado">
+<h2>Mercado: a escala citada e seus limites</h2>
+<p class="sub">O material apresenta um agregado de aproximadamente <strong>US$ 151 trilhões</strong> (R$ 752,7 trilhões). A tabela combina estimativas de ações e títulos dos EUA, mercados privados da América do Norte e criptoativos globais. <strong>Não é um total consolidado e auditado da bolsa americana.</strong></p>
+<div aria-label="Tabela 4; role horizontalmente em telas estreitas" class="tbl" role="region" tabindex="0"><table>
+<thead><tr><th scope="col">Classe</th><th class="n" scope="col">Valor estimado</th><th scope="col">Data-base</th></tr></thead>
+<tbody>
+<tr><td>📈 Ações listadas (NYSE, Nasdaq, OTCQX)</td><td class="n">≈ US$ 76,7 tri</td><td>out/2026*</td></tr>
+<tr><td>🏦 Renda fixa (títulos públicos, corporativos, municipais, hipotecários)</td><td class="n">≈ US$ 63 tri</td><td>2º tri/2026*</td></tr>
+<tr><td>🔒 Mercados privados (América do Norte)</td><td class="n">US$ 8,46 tri</td><td>meados/2025</td></tr>
+<tr><td>🪙 Criptoativos (mundo)</td><td class="n">US$ 2,6 tri</td><td>31/08/2026</td></tr>
+<tr class="total"><td>Agregado citado no material</td><td class="n">≈ US$ 151 tri</td><td>estimativa</td></tr>
+</tbody>
+</table></div><aside class="note warn"><b>Nota editorial desta edição:</b> as geografias e datas não são iguais, e a ausência de sobreposição não foi demonstrada. Esse agregado também não mede, por si só, investimentos com retirada superior a um dia. Preservamos os valores para documentar o estudo, não para apresentá-los como estatística oficial dos EUA.</aside>
+<p class="note">* Estimativas do projeto: o valor das ações aplica a alta do S&amp;P 500 no 3º trimestre ao total de 1º/jul (US$ 75,3 tri); a renda fixa soma o dado do 2º trimestre sem hipotecários (US$ 51,4 tri) a ≈ US$ 11,6 tri de títulos lastreados. Fundos e ETFs não entram na soma, pois detêm as ações e títulos acima. Não existe número oficial único.</p>
+<p>Mantidas as premissas e os arredondamentos do texto, a divisão do estoque citado pelo custo de implantação resultaria em cerca de <strong>942 redes</strong>; pelo custeio anual, em cerca de <strong>920 anos</strong>. São exercícios aritméticos: não incorporam inflação, mudanças de custo, viabilidade de liquidação ou disponibilidade dos recursos.</p>
+</section>
+<section aria-labelledby="ram-title" id="ram">
+<div class="section-kicker">Tecnologia e infraestrutura</div>
+<h2 id="ram-title">A crise da memória RAM</h2>
+<p class="sub">Resumo da explicação e dos números do texto enviado. Trata-se da narrativa da fonte fornecida, não de uma atualização independente do mercado.</p>
+<div class="grid2">
+<article class="card"><h3>A explicação apresentada</h3><p>O material associa a pressão sobre a memória à demanda de centros de dados de inteligência artificial e à priorização de HBM, com efeitos sobre a oferta e os preços de DRAM convencional.</p></article>
+<article class="card"><h3>Os termos usados no estudo</h3><p><strong>RAM</strong>: memória de trabalho. <strong>DRAM</strong>: tipo de RAM dinâmica. <strong>HBM</strong>: memória de alta largura de banda. <strong>NAND</strong>: memória flash de armazenamento, apresentada separadamente da RAM na comparação.</p></article>
+</div>
+<div aria-label="Tabela 5; role horizontalmente em telas estreitas" class="tbl" role="region" style="margin-top:18px" tabindex="0"><table>
+<caption>Variações citadas no texto enviado — sem validação independente</caption>
+<thead><tr><th scope="col">Período</th><th scope="col">Variação informada</th><th scope="col">Escopo descrito no material</th></tr></thead>
+<tbody>
+<tr><td>2025</td><td>+172% no ano</td><td>DRAM; indicador não documentado nesta edição</td></tr>
+<tr><td>1º trimestre de 2026</td><td>+90% a +95%</td><td>Preços contratuais de DRAM</td></tr>
+<tr><td>2º trimestre de 2026</td><td>+58% a +63%; NAND +70% a +75%</td><td>RAM e armazenamento separados</td></tr>
+<tr><td>3º trimestre de 2026</td><td>+13% a +18%</td><td>DRAM de servidor; recorte diferente</td></tr>
+<tr><td>4º trimestre de 2026</td><td>+10% a +15%; com HBM, +15% a +20%</td><td>Previsão reproduzida, não resultado realizado</td></tr>
+</tbody>
+</table></div>
+<p class="note warn"><b>Leitura cautelosa:</b> os percentuais citados se referem a recortes e períodos diferentes. Não devem ser somados nem aplicados automaticamente ao preço de um computador. A previsão de alívio em 2027–2028, mencionada no texto, não é garantia.</p>
+<details><summary>Referências de RAM trazidas no conteúdo enviado</summary><div class="details-body"><p>Links preservados como referências da narrativa original; não representam confirmação editorial.</p><ul class="clean">
+<li><a href="https://www.mobiusmaterials.com/whitepapers/dram-market-report-2026" rel="noopener noreferrer">Mobius Materials — relatório citado de agosto de 2026</a></li>
+<li><a href="https://nand-research.com/memory-nand-flash-crisis-may-2026-update/" rel="noopener noreferrer">NAND Research — atualização citada de maio de 2026</a></li>
+<li><a href="https://aiweekly.co/alerts/trendforce-dram-prices-to-jump-63-again-in-q2" rel="noopener noreferrer">AI Weekly — artigo citado sobre DRAM</a></li>
+<li><a href="https://tech.ifeng.com/c/8wqosax55jy" rel="noopener noreferrer">ifeng — previsão citada para o quarto trimestre</a></li>
+<li><a href="https://algeriatech.news/ramageddon-memory-shortage-server-pc-price-crisis-2026/" rel="noopener noreferrer">Algeria Tech — artigo citado sobre escassez</a></li>
+</ul></div></details>
+</section>
+<section aria-labelledby="sim-title" id="simulador">
+<div class="section-kicker">Premissas à vista</div>
+<h2 id="sim-title">Mude o cenário. Veja a conta.</h2>
+<p class="sub">Cálculo local a partir de parâmetros editáveis. Os valores iniciais reproduzem as premissas do material — não estimativas independentes de custo ou orçamento.</p>
+<noscript><p class="note warn">O simulador precisa de JavaScript. As tabelas e todo o restante do estudo permanecem disponíveis.</p></noscript>
+<form class="scenario-form" id="scenarioForm">
+<div class="input-grid">
+<label for="units">Número de pacotes<input id="units" max="10000000" min="1" name="units" required="" step="1" type="number" value="45926"/></label>
+<label for="buildCost">Obra por pacote · R$ milhões<input id="buildCost" max="100000" min="0.01" name="buildCost" required="" step="0.01" type="number" value="17.4"/></label>
+<label for="monthlyCost">Custeio mensal · R$ milhões/pacote<input id="monthlyCost" max="100000" min="0.001" name="monthlyCost" required="" step="0.001" type="number" value="1.48"/></label>
+<label for="fx">Câmbio hipotético · R$/US$<input id="fx" max="100000" min="0.001" name="fx" required="" step="0.001" type="number" value="4.985"/></label>
+<label for="defense">Defesa anual · US$ trilhões<input id="defense" max="10000" min="0.001" name="defense" required="" step="0.001" type="number" value="1"/></label>
+<label for="health">Saúde anual · US$ trilhões<input id="health" max="10000" min="0.001" name="health" required="" step="0.001" type="number" value="6"/></label>
+</div>
+<div class="form-actions"><button class="primary" type="submit">Recalcular cenário</button><button type="reset">Restaurar premissas</button><button id="exportBtn" type="button">Exportar cenário</button></div>
+</form>
+<p class="calc-error" id="calcError" role="alert"></p>
+<div aria-atomic="true" aria-live="polite" class="scenario-results" id="scenarioResults" role="status">
+<div class="result-card"><span class="result-label">Implantação</span><strong id="outBuild">US$ 160,30 bi</strong><span id="outBuildBrl">R$ 799,11 bi</span></div>
+<div class="result-card"><span class="result-label">Custeio de 12 meses</span><strong id="outAnnual">US$ 163,62 bi</strong><span id="outAnnualBrl">R$ 815,65 bi</span></div>
+<div class="result-card"><span class="result-label">Obra ÷ defesa anual</span><strong id="outDefense">16,03%</strong><span id="outDefenseDays">58,5 dias em um ano convencional de 365 dias</span></div>
+<div class="result-card"><span class="result-label">Obra ÷ saúde anual</span><strong id="outHealth">2,67%</strong><span id="outHealthDays">9,8 dias em um ano convencional de 365 dias</span></div>
+</div>
+<p class="note"><b>O que a conta mostra:</b> proporções condicionadas aos valores inseridos. Os dias usam um ano convencional de 365 dias, não um calendário de desembolsos. Implantar uma rede não é o mesmo que assegurar seu funcionamento, acesso universal ou resultado clínico.</p>
+<details><summary>Fórmulas e o que não foi incluído</summary><div class="details-body">
+<p><code>Obra em US$ = pacotes × custo unitário em R$ ÷ câmbio</code></p>
+<p><code>Custeio anual em US$ = pacotes × custeio mensal em R$ × 12 ÷ câmbio</code></p>
+<p><code>Dias equivalentes = obra em US$ ÷ referência anual em US$ × 365</code></p>
+<p>O cálculo não incorpora inflação, financiamento, tributação local, logística, importação, adequação territorial, formação profissional ou diferenças de custo entre países. Os resultados têm precisão aritmética, não precisão orçamentária.</p>
+</div></details>
+</section>
+<section id="limites">
+<h2><span aria-hidden="true" class="ico">🧭</span>O que os números não dizem</h2>
+<div class="grid2">
+<div class="card">
+<h3>🧱 Estoque não é caixa</h3>
+<ul class="clean">
+<li>O agregado citado não representa dinheiro em caixa disponível para construir ou manter serviços.</li>
+<li>US$ 63 trilhões são dívida: o ativo de um é o passivo de outro, e cerca de metade é do próprio governo americano (US$ 31,1 tri em títulos do Tesouro).</li>
+<li>Ações não viram caixa em massa: vender tudo derruba o preço.</li>
+<li>Comparar custos com gastos anuais ajuda a discutir escala, mas não demonstra viabilidade de realocação orçamentária.</li>
+</ul>
+</div>
+<div class="card">
+<h3>👩‍⚕️ O gargalo real é gente</h3>
+<p style="color:var(--ink)">Cobrir as três regiões uma vez exige:</p>
+<ul class="clean">
+<li><strong>551 mil</strong> enfermeiros (12 por unidade)</li>
+<li><strong>919 mil</strong> técnicos de enfermagem (20 por unidade)</li>
+<li><strong>276 mil</strong> fisioterapeutas (6 por unidade)</li>
+<li><strong>45.926</strong> postos de intensivista 24 h</li>
+</ul>
+<p>Na hipótese do projeto, a disponibilidade e a formação das equipes seriam gargalos adicionais. A conta financeira não comprova capacidade de execução nem elimina a necessidade de financiamento continuado.</p>
+</div>
+</div>
+<p class="note warn"><b>Simplificação declarada:</b> os custos usam preços do Nordeste brasileiro aplicados a todos os países. Obra, salários e equipamentos variam muito entre regiões, e o cálculo não inclui logística, importação, energia em áreas sem rede elétrica estável nem formação profissional. Os números servem para comparar ordens de grandeza, não como orçamento executivo.</p>
+</section>
+<section id="fontes">
+<h2><span aria-hidden="true" class="ico">📚</span>Método e fontes</h2>
+<p class="sub">Referências reproduzidas do material enviado, cuja data-base declarada é 10/10/2026. Esta edição não realizou auditoria independente dessas estatísticas, dos links ou da situação orçamentária. Custos locais são premissas do projeto 360X Brasil.</p>
+<div class="sources">
+<h3>Defesa e saúde dos EUA</h3>
+<ul>
+<li><a href="https://www.akingump.com/en/insights/blogs/the-approps-drop/defense-funding-update-fy-2026-vs-fy-2027-toplines" rel="noopener noreferrer">Akin – FY2026 vs FY2027 toplines</a></li>
+<li><a href="https://breakingdefense.com/2026/04/trump-to-propose-1-5-trillion-defense-budget-banking-on-350-billion-from-reconciliation/" rel="noopener noreferrer">Breaking Defense – pedido de US$ 1,5 tri</a></li>
+<li><a href="https://www.csis.org/analysis/unpacking-15-trillion-fy-2027-defense-budget-topline" rel="noopener noreferrer">CSIS – FY2027 defense topline</a></li>
+<li><a href="https://news.clearancejobs.com/?p=1165915" rel="noopener noreferrer">ClearanceJobs – resolução provisória até 11/12/2026</a></li>
+<li><a href="https://www.ausa.org/news/army-unveils-2528-billion-budget-fiscal-2027" rel="noopener noreferrer">AUSA – orçamento do Exército 2027</a></li>
+<li><a href="https://www.crfb.org/blogs/national-health-expenditures-continue-rise" rel="noopener noreferrer">CRFB – projeções de gasto em saúde (CMS)</a></li>
+</ul>
+<h3>Mercado e memória</h3>
+<ul>
+<li><a href="https://siblisresearch.com/data/us-stock-market-value/" rel="noopener noreferrer">Siblis Research – valor do mercado acionário</a></li>
+<li><a href="https://pluang.com/en/news-feed/snapshot-kapitalisasi-pasar-sp-500-fall-2026" rel="noopener noreferrer">Pluang – S&amp;P 500 no 3º trimestre de 2026</a></li>
+<li><a href="https://www.sifma.org/news/blog/2026-capital-markets-fact-book-key-findings" rel="noopener noreferrer">SIFMA – Capital Markets Fact Book 2026</a></li>
+<li><a href="https://www.ftportfolios.com/Blogs/InvestBlog/2026/9/18/factoid---friday,-september-18,-2026" rel="noopener noreferrer">First Trust – renda fixa no 2º trimestre de 2026</a></li>
+<li><a href="https://www.wealthprofessional.ca/investments/alternative-investments/north-american-private-markets-regain-momentum-as-capital-rebounds-and-liquidity-themes-intensify/392026" rel="noopener noreferrer">Preqin – mercados privados na América do Norte</a></li>
+<li><a href="https://www.bernama.com/en/press/news.php?id=2604963" rel="noopener noreferrer">Henley &amp; Partners – Crypto Wealth Report 2026</a></li>
+<li><a href="https://aiweekly.co/alerts/trendforce-dram-prices-to-jump-63-again-in-q2" rel="noopener noreferrer">AI Weekly – receita do setor de memória (TrendForce)</a></li>
+</ul>
+<h3>Câmbio e custos de referência</h3>
+<ul>
+<li><a href="https://portaldeprefeitura.com.br/bastidores-da-politica/dolar-recua-e-fecha-abaixo-de-r-5-pela-primeira-vez-desde-maio/633631/" rel="noopener noreferrer">Dólar abaixo de R$ 5 em outubro de 2026</a></li>
+<li>Custos de obra, equipamento e custeio: estimativas do projeto com referências de compras públicas 2024–2025 e tabela de UBS do Ministério da Saúde (2024).</li>
+<li>Repasse federal de CAPSi: Portaria GM/MS 5.500/2024.</li>
+<li>População 2026: projeções da ONU (World Population Prospects).</li>
+</ul>
+</div>
+</section>
+</div>
+</main>
+<footer>
+<div class="wrap">
+<a class="crest" href="#inicio">PARADOXOS INEXORÁVEIS</a>
+<div>Idealização: Aldenir Rocha de Oliveira Filho · 360X Brasil · Edição preparada em 22/10/2026.</div>
+<div>Estudo ilustrativo com dados fornecidos pelo autor. Não é orçamento executivo, protocolo clínico nem recomendação de investimento.</div>
+<p class="footer-small">Sem cadastro, formulários, anúncios ou ferramentas de rastreamento no código desta página.</p></div>
+</footer>
+<script>
+'use strict';
+(function () {
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  const nf = (value, digits = 2) => new Intl.NumberFormat('pt-BR', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value);
+  function say(message) { clearTimeout(toastTimer); toast.textContent = message; toastTimer = setTimeout(() => { toast.textContent = ''; }, 6500); }
+  function publicUrl() { return ['http:', 'https:'].includes(location.protocol) ? location.href.split('#')[0] : null; }
+  async function copy() {
+    const url = publicUrl();
+    if (!url) { say('Prévia local: o link público só existirá após a publicação no GitHub Pages.'); return; }
+    try { if (!navigator.clipboard) throw new Error('Clipboard unavailable'); await navigator.clipboard.writeText(url); say('Link copiado.'); }
+    catch (_) { say('Copie este endereço: ' + url); }
+  }
+  document.getElementById('copyBtn').addEventListener('click', copy);
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+  document.getElementById('shareBtn').addEventListener('click', async () => {
+    const url = publicUrl();
+    if (!url) { await copy(); return; }
+    if (!navigator.share) { await copy(); return; }
+    try { await navigator.share({ title: document.title, text: 'Paradoxos Inexoráveis: um estudo ilustrativo sobre saúde, recursos e escolhas, com premissas e limites declarados.', url }); }
+    catch (e) { if (e.name !== 'AbortError') await copy(); }
+  });
+  const form = document.getElementById('scenarioForm');
+  const error = document.getElementById('calcError');
+  const keys = ['units', 'buildCost', 'monthlyCost', 'fx', 'defense', 'health'];
+  let scenario = null;
+  function calculate() {
+    const inputs = {};
+    for (const key of keys) {
+      const input = document.getElementById(key);
+      const value = input.valueAsNumber;
+      if (!input.checkValidity() || !Number.isFinite(value) || value <= 0) {
+        error.textContent = 'Preencha todos os campos com valores positivos dentro dos limites. Use um número inteiro de pacotes.';
+        scenario = null; document.getElementById('scenarioResults').hidden = true; return null;
+      }
+      inputs[key] = value;
+    }
+    const buildBRL = inputs.units * inputs.buildCost * 1e6;
+    const annualBRL = inputs.units * inputs.monthlyCost * 1e6 * 12;
+    const buildUSD = buildBRL / inputs.fx;
+    const annualUSD = annualBRL / inputs.fx;
+    const defenseShare = buildUSD / (inputs.defense * 1e12);
+    const healthShare = buildUSD / (inputs.health * 1e12);
+    const results = { buildBRL, annualBRL, buildUSD, annualUSD, defensePercent: defenseShare * 100, healthPercent: healthShare * 100, defenseDays: defenseShare * 365, healthDays: healthShare * 365 };
+    if (Object.values(results).some(value => !Number.isFinite(value))) { error.textContent = 'Os parâmetros produzem um resultado inválido.'; scenario = null; document.getElementById('scenarioResults').hidden = true; return null; }
+    error.textContent = ''; document.getElementById('scenarioResults').hidden = false;
+    document.getElementById('outBuild').textContent = 'US$ ' + nf(buildUSD / 1e9) + ' bi';
+    document.getElementById('outBuildBrl').textContent = 'R$ ' + nf(buildBRL / 1e9) + ' bi';
+    document.getElementById('outAnnual').textContent = 'US$ ' + nf(annualUSD / 1e9) + ' bi';
+    document.getElementById('outAnnualBrl').textContent = 'R$ ' + nf(annualBRL / 1e9) + ' bi';
+    document.getElementById('outDefense').textContent = nf(results.defensePercent) + '%';
+    document.getElementById('outDefenseDays').textContent = nf(results.defenseDays, 1) + ' dias em um ano convencional de 365 dias';
+    document.getElementById('outHealth').textContent = nf(results.healthPercent) + '%';
+    document.getElementById('outHealthDays').textContent = nf(results.healthDays, 1) + ' dias em um ano convencional de 365 dias';
+    scenario = { project: 'Paradoxos Inexoráveis', edition: '2026-10-22', status: 'Cenário ilustrativo; estatísticas de entrada não auditadas', inputs, results, formulaNotes: 'Custos por pacote em milhões de reais; referências anuais em trilhões de dólares; ano convencional de 365 dias. Não inclui inflação ou validação de viabilidade.' };
+    return scenario;
+  }
+  form.addEventListener('submit', e => { e.preventDefault(); calculate(); });
+  form.addEventListener('input', calculate);
+  form.addEventListener('reset', () => setTimeout(calculate, 0));
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const data = calculate(); if (!data) return;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'paradoxos-inexoraveis-cenario.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  calculate();
+})();
+</script></body>
+</html>
